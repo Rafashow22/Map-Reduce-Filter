@@ -5,15 +5,25 @@ const ButtonSomado = document.querySelector('#buttonReduce');
 const buttonFull = document.querySelector('#buttonFilter');
 
 
+function moeda(valor){
+const valorMoeda = valor.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    })
+    return valorMoeda
 
-function showALL() {
+}
+
+
+function showALL(mostratudo) {
     let myLy = '';
-    menuOptions.forEach((product) => {
+    mostratudo.forEach((product) => {
         myLy += `
     <li>
     <img src="${product.src}" />
     <p>${product.name}</p>
-    <p class="item-price">R$ ${product.price}</p>
+function moeda(valor){
+    <p class="item-price">R$ ${moeda(product.price)}</p>
     </li>
     `
     })
@@ -21,19 +31,37 @@ function showALL() {
 }
 
 function showMap() {
-    console.log("Aquiiiiiiii!")
+const desconto = menuOptions.map((desc) => {
+return{...desc, price: desc.price * 0.9} 
+})   
+showALL(desconto)      
+
 }
+
+
+
 
 function showReduce() {
-    console.log("Aquiiiiiiii!")
+    const total = menuOptions.reduce((acc, item) => acc + item.price, 0);
+    
+    list.innerHTML = `
+    <li>
+    <p>O total dos Itens deu R$ ${moeda(total)}</p>
+    </li>
+    `
+    showALL(total)
 }
-function showFilter() {
-    console.log("Aquiiiiiiii!")
+
+
+    function showFilter() {
+    const veganos = menuOptions.filter((item) => item.vegan);
+    console.log(veganos);
+    showALL(veganos)
 }
 
 
 
-buttonAll.addEventListener('click', showALL);
+buttonAll.addEventListener('click', () => showALL(menuOptions));
 buttonMapeado.addEventListener('click',showMap);
 ButtonSomado.addEventListener('click',showReduce);
 buttonFull.addEventListener('click',showFilter);
